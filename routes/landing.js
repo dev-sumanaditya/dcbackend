@@ -3,6 +3,7 @@ const joi = require('@hapi/joi');
 
 // models
 const clientform = require('../db/models/clientform.model');
+const joinform = require('../db/models/joinform.model');
 
 // query route
 const querySchema = joi.object({
@@ -23,27 +24,43 @@ router.post('/query', (req,res) => {
     
     // Validate data
     const { error } = querySchema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
-    (new clientform(req.body))
+    if (error) res.status(400).send(error.details[0].message);
+    else {
+        (new clientform(req.body))
         .save()
-        .then((resp) => { res.send('ok 200 - ' + resp) })
+        .then((resp) => { res.send(resp) })
         .catch((error) => {console.log(error); res.status(500).send(error)});
+    }
 });
-
-router.get('/query', (req,res) => {
-    clientform.find({})
-       .then(lists => res.send(lists))
-       .catch((error) => console.log(error));
-})
 
 
 
 
 // join route
 
+const joinSchema = joi.object({
+    name: joi.string().min(3).max(80).required(),  //req
+    email: joi.string().min(6).required().email(),  //req
+    contact: joi.string().min(8).max(13).required(),
+    country: joi.string().min(2).max(80).required(),
+    city: joi.string().min(2).max(80).required(),
+    fieldOfStudy: joi.string().min(2).max(80).required(),
+    qualification: joi.string().min(2).max(80).required(),
+    experience: joi.string().min(2).max(80).required(),
+    skills: joi.array().required(),
+    resume: joi.required(),
+    timestamp: joi.string().min(2).max(80).required()
+})
+
 router.post('/join', (req,res) => {
-    res.send('join post');
+    const { error } = joinSchema.validate(req.body);
+    if (error) res.status(400).send(error.details[0].message);
+    else {
+        (new joinform(req.body))
+        .save()
+        .then((resp) => { res.send(resp) })
+        .catch((error) => {console.log(error); res.status(500).send(error)});
+    }
 })
 
 
