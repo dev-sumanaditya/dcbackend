@@ -1,8 +1,11 @@
 const router = require('express').Router();
 const verify = require('./verifyToken');
 
-router.get('/', verify, (req,res) => {
-    res.json({posts: {title: 'some post', description: 'some descrip'}})
+const member = require('../db/models/member.model');
+
+router.get('/', verify, async (req,res) => {
+    var user = await member.findOne({_id: req.user._id})
+    res.send(user);
 });
 
 
