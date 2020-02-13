@@ -29,7 +29,7 @@ router.post('/query', (req,res) => {
         (new clientform(req.body))
         .save()
         .then((resp) => { res.send(resp) })
-        .catch((error) => {console.log(error); res.status(500).send(error)});
+        .catch((error) => {console.log(error); res.status(400).send(error)});
     }
 });
 
@@ -59,7 +59,7 @@ router.post('/join', (req,res) => {
         (new joinform(req.body))
         .save()
         .then((resp) => { res.send(resp) })
-        .catch((error) => {console.log(error); res.status(500).send(error)});
+        .catch((error) => {console.log(error); res.status(400).send(error)});
     }
 })
 

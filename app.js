@@ -15,6 +15,8 @@ const app = express();
 // Import Routes
 const authRoute = require('./routes/auth');
 const appRoute = require('./routes/landing');
+const adminRoute = require('./routes/admin');
+
 
 // Middlewares
 app.use(express.json());
@@ -36,6 +38,7 @@ app.use(cors());
 // Route middlewares
 app.use('/api/auth', authRoute);
 app.use('/api/app', appRoute);
+app.use('/api/admin', adminRoute);
 
 
 
@@ -46,16 +49,6 @@ app.use('/api/app', appRoute);
 //     query.find({})
 //       .then(lists => res.send(lists))
 //       .catch((error) => console.log(error));
-// })
-// app.post('/', (req, res) => {
-//   const data = req.body;
-//   (new query({
-//     'name': data.name,
-//     'id': data.id
-//   }))
-//   .save()
-//   .then((list) => { res.send('ok 200 - ' + list) })
-//   .catch((error) => {console.log(error);});
 // })
 
 
